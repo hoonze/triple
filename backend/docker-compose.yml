@@ -18,7 +18,7 @@ services:
       - triple_network
 
   database:
-    image: mysql
+    image: mysql:8.0.26
     container_name: triple_mysql
     ports:
       - 3306:3306
