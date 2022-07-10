@@ -67,7 +67,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void deleteReview(ReviewRequest reviewRequest) {
-        reviewRepository.delete(selectReview(reviewRequest.getReviewId()));
+        Review review = selectReview(reviewRequest.getReviewId());
+
+        if(!reviewBelongToUser(review, reviewRequest))
+            throw new UnAuthorizationException("user does not have permission to review.");
+
+        reviewRepository.delete(review);
 
         pointService.earnPoints(reviewRequest, calculatePoint(reviewRequest, isFirstReview(reviewRequest.getPlaceId())));
     }
