@@ -26,7 +26,7 @@ $ docker-compose up
 
 
 
-## S0feware  Version
+## Software  Version
 
 - JAVA : 1.8.0_192
 - Spring boot : 2.7.1
