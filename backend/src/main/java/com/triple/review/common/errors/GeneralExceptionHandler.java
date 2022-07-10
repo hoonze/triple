@@ -28,6 +28,11 @@ public class GeneralExceptionHandler {
         return newResponse(e, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UnAuthorizationException.class)
+    public ResponseEntity<?> UnAuthorizationException(Exception e) {
+        return newResponse(e, HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(ReviewDuplicateException.class)
     public ResponseEntity<?> DuplicateException(Exception e) {
         return newResponse(e, HttpStatus.CONFLICT);
@@ -37,5 +42,7 @@ public class GeneralExceptionHandler {
             ReviewNotFoundException.class,
             UserNotFoundException.class
     })
-    public ResponseEntity<?> NotFoundException(Exception e) { return newResponse(e, HttpStatus.NOT_FOUND);}
+    public ResponseEntity<?> NotFoundException(Exception e) {
+        return newResponse(e, HttpStatus.NOT_FOUND);
+    }
 }

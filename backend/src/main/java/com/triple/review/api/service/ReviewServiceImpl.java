@@ -3,6 +3,7 @@ package com.triple.review.api.service;
 import com.triple.review.api.dto.ReviewRequest;
 import com.triple.review.common.errors.ReviewDuplicateException;
 import com.triple.review.common.errors.ReviewNotFoundException;
+import com.triple.review.common.errors.UnAuthorizationException;
 import com.triple.review.db.entity.Review;
 import com.triple.review.db.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public Review updateReview(ReviewRequest reviewRequest) {
         Review oldReview = selectReview(reviewRequest.getReviewId());
+
+        if(!reviewBelongToUser(oldReview, reviewRequest))
+            throw new UnAuthorizationException("user does not have permission to review.");
+
         int point = calculatePoint(oldReview, reviewRequest);
 
         Review newReview = requestToEntity(reviewRequest);
@@ -75,6 +80,13 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public boolean alreadyReviewed(String userId, String placeId) {
         return reviewRepository.existsByUserIdAndPlaceId(userId, placeId);
+    }
+
+    private boolean reviewBelongToUser(Review oldReview, ReviewRequest newReview){
+        if(oldReview.getUserId().equals(newReview.getUserId()) && oldReview.getReviewId().equals(newReview.getReviewId()))
+            return true;
+
+        return false;
     }
 
     private Review requestToEntity(ReviewRequest reviewRequest) {

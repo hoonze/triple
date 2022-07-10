@@ -36,7 +36,8 @@ public class ReviewController {
             reviewResponse = new ReviewResponse(reviewService.updateReview(reviewRequest));
         }else if("DELETE".equals(reviewRequest.getAction())){
             reviewService.deleteReview(reviewRequest);
-        }
+        }else
+            throw new BadRequestException("Invalid Input");
 
         return success(reviewResponse);
     }
