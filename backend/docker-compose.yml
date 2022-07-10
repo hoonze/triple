@@ -22,6 +22,8 @@ services:
     container_name: triple_mysql
     ports:
       - 3306:3306
+    volumes:
+    - ../db/mysql-init-files/docker-entrypoint-initdb.d
     environment:
       - TZ=Asia/Seoul
       - MYSQL_DATABASE=triple
