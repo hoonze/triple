@@ -26,6 +26,59 @@ $ docker-compose up
 
 
 
+## API
+
+1. 리뷰 작성 이벤트
+
+   ```
+   url 
+   /events
+   
+   input
+   {
+       "type":String
+       "action":String
+       "reviewId":String
+       "content":String
+       "attachedPhotoIds":String[]
+       "userId":String
+   }
+   
+   output
+   {
+       "success": boolean
+       "response": {
+           "reviewId": String
+           "content": String
+           "attachedPhotoIds": String[]
+           "userId": String
+           "placeId": String
+       },
+       "error": boolean
+   }
+   ```
+
+   
+
+2. 포인트 조회
+
+   ```
+   url 
+   /points/{userId}
+   
+   output
+   {
+       "success": boolean
+       "response": {
+           "userId": String
+           "point": int
+       },
+       "error": boolean
+   }
+   ```
+
+   
+
 ## Software  Version
 
 - JAVA : 1.8.0_192
